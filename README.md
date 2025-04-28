@@ -1,2 +1,2 @@
-# pdf-to-speach
+# pdf-to-speech
 PDF to Speech Converter with Python
