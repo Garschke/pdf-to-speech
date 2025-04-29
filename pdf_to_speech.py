@@ -8,12 +8,12 @@ load_dotenv()
 
 
 class PDFToSpeechConverter:
-    def __init__(self):
+    def __init__(self) -> None:
         # Initialize Google Cloud client
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google_credentials.json"
         self.client = texttospeech.TextToSpeechClient()
 
-    def extract_text_from_pdf(self, pdf_path):
+    def extract_text_from_pdf(self, pdf_path) -> str:
         """Extract text from a PDF file."""
         print(f"Extracting text from {pdf_path}...")
         text = ""
@@ -23,7 +23,7 @@ class PDFToSpeechConverter:
                 text += page.extract_text()
         return text
 
-    def split_text(self, text, max_chars=5000):
+    def split_text(self, text, max_chars=4000) -> list:
         """
         Split text into chunks that are small enough for the API.
         Google Text-to-Speech has a limit of 5000 characters per
@@ -33,14 +33,16 @@ class PDFToSpeechConverter:
         while len(text) > max_chars:
             # Find the last space within the limit
             split_at = text.rfind(' ', 0, max_chars)
+            print(f"Splitting text at {split_at} characters.")
             if split_at == -1:
                 split_at = max_chars
+                print(f"Splitting at max_chars: {max_chars} characters.")
             chunks.append(text[:split_at])
             text = text[split_at:].lstrip()
         chunks.append(text)
         return chunks
 
-    def text_to_speech(self, text, output_file="output.mp3"):
+    def text_to_speech(self, text, output_file="output.mp3") -> None:
         """
         Convert text to speech using Google Cloud Text-to-Speech API.
         """
@@ -52,6 +54,9 @@ class PDFToSpeechConverter:
 
         for i, chunk in enumerate(text_chunks):
             print(f"Processing chunk {i+1}/{len(text_chunks)}...")
+            print(f"Chunk content:\n\n{chunk}\n")
+            print(f"Chunk length: {len(chunk)} characters, " +
+                  f"{len(chunk.split())} words")
 
             # Set the text input to be synthesized
             synthesis_input = texttospeech.SynthesisInput(text=chunk)
@@ -83,7 +88,8 @@ class PDFToSpeechConverter:
             out.write(audio_content)
             print(f"Audio content written to file '{output_file}'")
 
-    def convert_pdf_to_speech(self, pdf_path, output_file="output.mp3"):
+    def convert_pdf_to_speech(self, pdf_path,
+                              output_file="output.mp3") -> None:
         """
         Full pipeline: PDF -> Text -> Speech
         """

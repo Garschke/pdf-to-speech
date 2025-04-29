@@ -179,3 +179,4 @@ cython_debug/
 *.mp3
 *.pdf
 google_credentials.json
+.DS_Store
