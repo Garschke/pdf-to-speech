@@ -177,6 +177,8 @@ cython_debug/
 
 # Additions
 *.mp3
+!output/output.mp3
 *.pdf
+!input/test.pdf
 google_credentials.json
 .DS_Store
