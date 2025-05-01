@@ -66,17 +66,17 @@ class PDFToSpeechConverter:
             synthesis_input = texttospeech.SynthesisInput(text=chunk)
 
             # Build the voice request
-            # voice = texttospeech.VoiceSelectionParams(
-            #     language_code="en-US",
-            #     name="en-US-Standard-F",  # Female voice
-            #     ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
-            # )
-
             voice = texttospeech.VoiceSelectionParams(
-                language_code="en-GB",
-                name="en-GB-Standard-O",  # Male voice
-                ssml_gender=texttospeech.SsmlVoiceGender.MALE
+                language_code="en-US",
+                name="en-US-Standard-F",  # Female voice
+                ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
             )
+
+            # voice = texttospeech.VoiceSelectionParams(
+            #     language_code="en-GB",
+            #     name="en-GB-Standard-O",  # Male voice
+            #     ssml_gender=texttospeech.SsmlVoiceGender.MALE
+            # )
 
             # Select the type of audio file
             audio_config = texttospeech.AudioConfig(

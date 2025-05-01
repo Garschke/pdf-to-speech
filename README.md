@@ -131,8 +131,11 @@ pdf-to-speech/
 
 You can modify these aspects in the code:
 - Voice parameters (language, gender, specific voice model)
+  * see https://cloud.google.com/text-to-speech/docs/list-voices-and-types#list_of_all_supported_languages
 - Audio format (currently MP3)
-- Text chunk size (default 5000 characters per API request)
+  * see https://cloud.google.com/speech-to-text/docs/encoding#audio-encodings
+- Text chunk size (default 4950 characters per API request)
+  * Note: Although Google has 5000 byte limit for API, going above the 4950 default might throw errors
 
 <!-- EXAMPLE -->
 ## Example
