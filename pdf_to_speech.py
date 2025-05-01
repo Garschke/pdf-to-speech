@@ -1,10 +1,9 @@
 import os
 from modules.logger import get_logger
-from logging import DEBUG, INFO
+from logging import DEBUG
 from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 from google.cloud import texttospeech
-# from time import sleep
 
 # Load environment variables
 load_dotenv()
@@ -16,7 +15,7 @@ class PDFToSpeechConverter:
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google_credentials.json"
         self.client = texttospeech.TextToSpeechClient()
 
-    def extract_text_from_pdf(self, pdf_path) -> str:
+    def extract_text_from_pdf(self, pdf_path: str) -> str:
         """Extract text from a PDF file."""
         log.debug(f"Extracting text from {pdf_path}...")
         text = ""
@@ -27,7 +26,7 @@ class PDFToSpeechConverter:
                 text += page.extract_text()
         return text
 
-    def split_text(self, text, max_chars=4950) -> list:
+    def split_text(self, text: str, max_chars: int = 4950) -> list:
         """
         Split text into chunks that are small enough for the API.
         Google Text-to-Speech has a limit of 5000 characters per
@@ -48,7 +47,8 @@ class PDFToSpeechConverter:
         chunks.append(text)
         return chunks
 
-    def text_to_speech(self, text, output_file="output/output.mp3") -> None:
+    def text_to_speech(
+            self, text: str, output_file: str = "output/output.mp3") -> None:
         """
         Convert text to speech using Google Cloud Text-to-Speech API.
         """
@@ -61,14 +61,21 @@ class PDFToSpeechConverter:
             log.info(f"Processing chunk {i+1}/{len(text_chunks)}...")
             log.debug(f"Chunk length: {len(chunk)} characters, " +
                       f"{len(chunk.split())} words")
+
             # Set the text input to be synthesized
             synthesis_input = texttospeech.SynthesisInput(text=chunk)
 
             # Build the voice request
+            # voice = texttospeech.VoiceSelectionParams(
+            #     language_code="en-US",
+            #     name="en-US-Standard-F",  # Female voice
+            #     ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
+            # )
+
             voice = texttospeech.VoiceSelectionParams(
-                language_code="en-US",
-                name="en-US-Standard-F",  # Female voice
-                ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
+                language_code="en-GB",
+                name="en-GB-Standard-O",  # Male voice
+                ssml_gender=texttospeech.SsmlVoiceGender.MALE
             )
 
             # Select the type of audio file
@@ -100,7 +107,7 @@ class PDFToSpeechConverter:
             log.info(f"Audio content written to file '{output_file}'")
 
     def convert_pdf_to_speech(self, pdf_path: str,
-                              output_file="output.mp3") -> None:
+                              output_file: str = "output.mp3") -> None:
         """
         Full pipeline: PDF -> Text -> Speech
         """
@@ -142,8 +149,8 @@ def get_valid_pdf_path(default_path: str) -> str:
     while True:
         # Ask the user for a file path
         file_path = input(
-            "Please enter path to PDF file (default: " +
-            f"{default_path}): ").strip()
+            f"Enter path to PDF file (default: {default_path}): "
+            ).strip()
         # Check if the path is empty and set a default value
         if not file_path:
             file_path = default_path
@@ -175,7 +182,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    log = get_logger("pdf_to_speech_app", DEBUG)
+    log = get_logger("pdf_to_speech_app")
+    log = get_logger("pdf_to_speech_app", DEBUG)  # for detailed logging
     log.debug("Starting PDF to Speech conversion app")
     main()
     log.debug("PDF to Speech conversion app finished")

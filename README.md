@@ -115,6 +115,14 @@ pdf-to-speech/
 ├── google_credentials.json # Google Cloud credentials
 ├── requirements.txt        # Dependencies
 ├── .gitignore              # Files to ignore in version control
+├── static/
+│   └── image/              # Images (pdf to text audiobook logo)
+├── modules/
+│   └── logger.py           # Logging module
+├── input/
+│   └── test.pdf            # Example PDF file (used if no filepath provided)
+├── output/
+│   └── output.mp3          # MP3 output (default output filepath if none provided)
 └── README.md               # This file
 ```
 
@@ -129,10 +137,45 @@ You can modify these aspects in the code:
 <!-- EXAMPLE -->
 ## Example
 
+Without DEBUG logging
 ```bash
-python pdf_to_speech.py
-Enter the path to your PDF file: sample.pdf
-Enter the output MP3 file name (default: output.mp3): my_audiobook.mp3
+python3 pdf_to_speech.py
+Enter path to PDF file (default: input/test.pdf): 
+Enter the output MP3 file name (default: output/output.mp3): 
+| Processing chunk 1/1...
+| Audio content written to file 'output/output.mp3'
+```
+
+With DEBUG logging
+```bash
+python3 pdf_to_speech.py
+| Starting PDF to Speech conversion app
+Enter path to PDF file (default: input/test.pdf): 
+| No PDF file path provided so default input/test.pdf used
+| Valid PDF file found!
+| File 'input/test.pdf' exists and is a PDF file.
+Enter the output MP3 file name (default: output/output.mp3): 
+| Output file name: output/output.mp3
+| Starting conversion...
+| Extracting text from input/test.pdf...
+| 
+Extraxted text:
+
+
+PDF to Speech :PDF to speech dot PY ,  is a Python script that converts PDF ﬁles to speech in the form of MP3 ﬁles, using the Google Cloud Text-to-Speech API, eﬀectively creating audiobooks from text documents.
+
+
+| Text length: 212 characters, 37 words
+| Converting text to Speech...
+| Splitting text into chuncks of 4950 charaters
+| Processing chunk 1/1...
+| Chunk length: 212 characters, 37 words
+| Chunk 1 processed.
+| All chnunks processed.
+| Total audio length: 133248 bytes
+| Writing audio content to file 'output/output.mp3'...
+| Audio content written to file 'output/output.mp3'
+| PDF to Speech conversion app finished
 ```
 
 <!-- FUTURE ENHANCEMENTS -->
