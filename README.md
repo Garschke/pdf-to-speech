@@ -143,8 +143,8 @@ You can modify these aspects in the code:
 Without DEBUG logging
 ```bash
 python3 pdf_to_speech.py
-Enter path to PDF file (default: input/test.pdf): 
-Enter the output MP3 file name (default: output/output.mp3): 
+Enter path to PDF file (default: input/test.pdf):
+Enter the output MP3 file name (default: output/output.mp3):
 | Processing chunk 1/1...
 | Audio content written to file 'output/output.mp3'
 ```
